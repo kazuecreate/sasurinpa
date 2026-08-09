@@ -15,12 +15,12 @@ import {
   PublishStateBadge,
 } from "@/components/admin/admin-badges";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
+import { StatTile, StatTileGrid } from "@/components/admin/stat-tile";
 import {
   MockField,
   MockFormNotice,
   MockSelect,
-} from "@/components/admin/mock-form";
-import { StatTile, StatTileGrid } from "@/components/admin/stat-tile";
+} from "@/components/mock-form";
 import { Button } from "@/components/ui/button";
 import {
   Card,

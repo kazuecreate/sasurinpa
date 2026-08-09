@@ -15,6 +15,12 @@ const shortDateFormatter = new Intl.DateTimeFormat("ja-JP", {
   day: "numeric",
 });
 
+const timeFormatter = new Intl.DateTimeFormat("ja-JP", {
+  timeZone: TIME_ZONE,
+  hour: "2-digit",
+  minute: "2-digit",
+});
+
 const dateTimeFormatter = new Intl.DateTimeFormat("ja-JP", {
   timeZone: TIME_ZONE,
   year: "numeric",
@@ -32,6 +38,11 @@ export function formatDate(iso: string): string {
 /** "2026-08-05T10:00:00+09:00" → "8/5" */
 export function formatShortDate(iso: string): string {
   return shortDateFormatter.format(new Date(iso));
+}
+
+/** "2026-08-07T22:05:00+09:00" → "22:05"（チャットの吹き出し用） */
+export function formatTime(iso: string): string {
+  return timeFormatter.format(new Date(iso));
 }
 
 /** "2026-08-05T10:00:00+09:00" → "2026年8月5日 10:00" */

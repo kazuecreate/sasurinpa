@@ -11,13 +11,14 @@ import {
 } from "lucide-react";
 
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
+import { StatTile, StatTileGrid } from "@/components/admin/stat-tile";
 import {
   MockField,
   MockFormNotice,
   MockSelect,
-} from "@/components/admin/mock-form";
-import { StatTile, StatTileGrid } from "@/components/admin/stat-tile";
+} from "@/components/mock-form";
 import { SubmissionStatusBadge } from "@/components/student/status-badges";
+import { SUBMISSION_KIND_META } from "@/components/student/submission-kind";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -45,17 +46,9 @@ import {
   getProfile,
   getReviewedSubmissions,
 } from "@/lib/mock";
-import type { SubmissionKind } from "@/types/database";
 
 export const metadata: Metadata = {
   title: "課題添削",
-};
-
-/** 提出物の種別ラベル。受講生側の提出画面ができたら共通化する。 */
-const SUBMISSION_KIND_LABEL: Record<SubmissionKind, string> = {
-  video: "実技動画",
-  report: "レポート",
-  both: "動画＋レポート",
 };
 
 /** 添削フォームの返信ステータス。 */
@@ -150,7 +143,7 @@ export default function AdminSubmissionsPage() {
                         variant="secondary"
                         className="bg-muted text-muted-foreground"
                       >
-                        {SUBMISSION_KIND_LABEL[assignment.submission_kind]}
+                        {SUBMISSION_KIND_META[assignment.submission_kind].label}
                       </Badge>
                     )}
                   </CardTitle>

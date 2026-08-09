@@ -2,7 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, LayoutDashboard } from "lucide-react";
+import {
+  Award,
+  BookOpen,
+  ClipboardList,
+  LayoutDashboard,
+  MessagesSquare,
+} from "lucide-react";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
@@ -10,6 +16,9 @@ import { cn } from "@/lib/utils";
 const NAV_ITEMS = [
   { href: "/dashboard", label: "ダッシュボード", icon: LayoutDashboard },
   { href: "/curriculum", label: "カリキュラム", icon: BookOpen },
+  { href: "/assignments", label: "課題", icon: ClipboardList },
+  { href: "/support", label: "サポート", icon: MessagesSquare },
+  { href: "/certificate", label: "認定証", icon: Award },
 ] as const;
 
 type StudentHeaderProps = {
@@ -23,7 +32,8 @@ export function StudentHeader({ studentName, initial }: StudentHeaderProps) {
 
   return (
     <header className="sticky top-0 z-20 border-b border-border/70 bg-background/85 backdrop-blur-md">
-      <div className="mx-auto flex w-full max-w-5xl items-center gap-4 px-5 py-3 sm:px-6">
+      {/* 項目が5つあるので、狭い画面ではメニューだけを2行目に折り返す。 */}
+      <div className="mx-auto flex w-full max-w-5xl flex-wrap items-center gap-x-4 gap-y-2 px-5 py-3 sm:flex-nowrap sm:px-6">
         <Link href="/dashboard" className="flex items-center gap-3">
           <span
             aria-hidden
@@ -41,7 +51,21 @@ export function StudentHeader({ studentName, initial }: StudentHeaderProps) {
           </span>
         </Link>
 
-        <nav className="ml-auto flex items-center gap-1">
+        <div className="ml-auto flex items-center gap-2 sm:order-last sm:border-l sm:border-border/70 sm:pl-3">
+          <Avatar>
+            <AvatarFallback className="bg-brand-sage-soft text-accent-foreground">
+              {initial}
+            </AvatarFallback>
+          </Avatar>
+          <span className="hidden text-sm font-medium lg:inline">
+            {studentName}
+          </span>
+        </div>
+
+        <nav
+          aria-label="メインメニュー"
+          className="order-last flex w-full flex-wrap items-center gap-1 sm:order-none sm:ml-auto sm:w-auto sm:flex-nowrap"
+        >
           {NAV_ITEMS.map((item) => {
             const isActive =
               pathname === item.href || pathname.startsWith(`${item.href}/`);
@@ -59,22 +83,12 @@ export function StudentHeader({ studentName, initial }: StudentHeaderProps) {
                 )}
               >
                 <item.icon className="size-4" />
-                <span className="hidden sm:inline">{item.label}</span>
+                {/* 横並びになる中間サイズだけラベルを隠す（読み上げには残す）。 */}
+                <span className="sm:sr-only lg:not-sr-only">{item.label}</span>
               </Link>
             );
           })}
         </nav>
-
-        <div className="flex items-center gap-2 border-l border-border/70 pl-3">
-          <Avatar>
-            <AvatarFallback className="bg-brand-sage-soft text-accent-foreground">
-              {initial}
-            </AvatarFallback>
-          </Avatar>
-          <span className="hidden text-sm font-medium sm:inline">
-            {studentName}
-          </span>
-        </div>
       </div>
     </header>
   );

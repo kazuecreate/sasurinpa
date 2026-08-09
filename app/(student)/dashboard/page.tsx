@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import {
   ArrowRight,
   Award,
   CalendarDays,
+  ChevronRight,
   ClipboardList,
   Lock,
   Megaphone,
+  MessagesSquare,
   Pin,
   PlayCircle,
 } from "lucide-react";
@@ -33,6 +36,8 @@ import {
   getCurriculum,
   getNextLesson,
   getProgress,
+  getThreadForStudent,
+  getUnreadCount,
 } from "@/lib/mock";
 import {
   CURRENT_STUDENT_ID,
@@ -59,6 +64,11 @@ export default function DashboardPage() {
   const assignments = getAssignmentsForStudent(CURRENT_STUDENT_ID);
   const announcements = getAnnouncements(CURRENT_STUDENT_ID).slice(0, 3);
   const certificate = getCertificate(CURRENT_STUDENT_ID);
+
+  const supportThread = getThreadForStudent(CURRENT_STUDENT_ID);
+  const unreadCount = supportThread
+    ? getUnreadCount(supportThread.id, CURRENT_STUDENT_ID)
+    : 0;
 
   const remainingLessons = progress.total - progress.completed;
   const remainingAssignments = assignments.filter(
@@ -189,6 +199,15 @@ export default function DashboardPage() {
                 </ul>
               </>
             )}
+
+            <ButtonLink
+              href="/certificate"
+              variant="outline"
+              className="rounded-2xl"
+            >
+              {certificate ? "認定証を見る" : "修了までの条件を見る"}
+              <ChevronRight />
+            </ButtonLink>
           </CardContent>
         </Card>
       </div>
@@ -212,9 +231,12 @@ export default function DashboardPage() {
                 {index > 0 && <Separator />}
                 <div className="flex flex-col gap-2 pt-0.5">
                   <div className="flex items-start justify-between gap-3">
-                    <p className="font-medium leading-relaxed">
+                    <Link
+                      href={`/assignments/${assignment.id}`}
+                      className="font-medium leading-relaxed hover:underline"
+                    >
                       {assignment.title}
-                    </p>
+                    </Link>
                     <SubmissionStatusBadge
                       status={submission?.status}
                       className="mt-0.5 shrink-0"
@@ -246,6 +268,15 @@ export default function DashboardPage() {
                 </div>
               </div>
             ))}
+
+            <ButtonLink
+              href="/assignments"
+              variant="outline"
+              className="mt-1 rounded-2xl"
+            >
+              課題ページをひらく
+              <ChevronRight />
+            </ButtonLink>
           </CardContent>
         </Card>
 
@@ -286,6 +317,34 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* サポートチャットへの導線 */}
+      <Card className="rounded-2xl">
+        <CardContent className="flex flex-wrap items-center gap-x-5 gap-y-3 py-1">
+          <span
+            aria-hidden
+            className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-brand-pink-soft"
+          >
+            <MessagesSquare className="size-5 text-secondary-foreground" />
+          </span>
+
+          <div className="flex min-w-0 flex-1 flex-col gap-1">
+            <p className="font-heading text-base font-medium">
+              個別サポート・チャット
+            </p>
+            <p className="text-xs leading-6 text-muted-foreground">
+              {unreadCount > 0
+                ? `${demoCourse.instructor_name} 先生から新しいお返事が${unreadCount}件届いています。`
+                : "講座の内容でも活動のご相談でも、お気軽にどうぞ。"}
+            </p>
+          </div>
+
+          <ButtonLink href="/support" size="lg" className="rounded-2xl">
+            チャットをひらく
+            <ChevronRight />
+          </ButtonLink>
+        </CardContent>
+      </Card>
     </div>
   );
 }

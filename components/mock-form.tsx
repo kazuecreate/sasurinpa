@@ -11,7 +11,7 @@ import {
 import { cn } from "@/lib/utils";
 
 /**
- * 管理画面のフォーム部品。
+ * 見た目だけのフォーム部品。管理画面と受講生画面の両方で使う。
  *
  * いまはどのフォームも「見た目のみ」で、送信しても何も起きない
  * （ボタンはすべて type="button"）。Supabase 接続後に Server Action を
