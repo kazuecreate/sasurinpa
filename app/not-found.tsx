@@ -1,6 +1,4 @@
-import Link from "next/link";
-
-import { Button } from "@/components/ui/button";
+import { ButtonLink } from "@/components/ui/button-link";
 
 export default function NotFound() {
   return (
@@ -16,11 +14,9 @@ export default function NotFound() {
           お探しのページは移動したか、削除された可能性があります。
         </p>
       </div>
-      <Button
-        size="lg"
-        className="rounded-2xl"
-        render={<Link href="/dashboard">ダッシュボードへもどる</Link>}
-      />
+      <ButtonLink size="lg" href="/dashboard" className="rounded-2xl">
+        ダッシュボードへもどる
+      </ButtonLink>
     </main>
   );
 }

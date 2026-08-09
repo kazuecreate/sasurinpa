@@ -172,6 +172,13 @@ export function getPendingSubmissions(): SubmissionRow[] {
     .sort((a, b) => a.submitted_at.localeCompare(b.submitted_at));
 }
 
+/** 添削済みの提出（管理画面の履歴用）。添削が新しい順。 */
+export function getReviewedSubmissions(): SubmissionRow[] {
+  return mockSubmissions
+    .filter((s) => s.status === "approved" || s.status === "revision_requested")
+    .sort((a, b) => (b.reviewed_at ?? "").localeCompare(a.reviewed_at ?? ""));
+}
+
 export function getSubmissionsByStudent(studentId: string): SubmissionRow[] {
   return mockSubmissions
     .filter((s) => s.student_id === studentId)
@@ -225,6 +232,24 @@ export function getAnnouncements(userId?: string): AnnouncementRow[] {
       if (a.is_pinned !== b.is_pinned) return a.is_pinned ? -1 : 1;
       return (b.published_at ?? "").localeCompare(a.published_at ?? "");
     });
+}
+
+/**
+ * 下書きも含めた全件（管理画面の配信一覧用）。
+ * 下書き → ピン留め → 日付の新しい順に並べる。
+ */
+export function getAllAnnouncements(): AnnouncementRow[] {
+  return [...mockAnnouncements].sort((a, b) => {
+    const isDraft = (announcement: AnnouncementRow) =>
+      Number(announcement.published_at !== null);
+
+    if (isDraft(a) !== isDraft(b)) return isDraft(a) - isDraft(b);
+    if (a.is_pinned !== b.is_pinned) return a.is_pinned ? -1 : 1;
+
+    return (b.published_at ?? b.updated_at).localeCompare(
+      a.published_at ?? a.updated_at,
+    );
+  });
 }
 
 export function getCertificate(userId: string, courseId: string = COURSE_ID) {

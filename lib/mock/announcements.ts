@@ -1,8 +1,22 @@
 import type { AnnouncementRow, CertificateRow } from "@/types/database";
 import { COURSE_ID, USER_IDS } from "./ids";
 
-/** published_at の降順、is_pinned が先頭に来る想定。 */
+/**
+ * published_at の降順、is_pinned が先頭に来る想定。
+ * published_at が null のものは下書き（管理画面にだけ出る）。
+ */
 export const mockAnnouncements: AnnouncementRow[] = [
+  {
+    id: "50000000-0000-4000-8000-000000000005",
+    title: "秋のブラッシュアップ講座（仮）",
+    body: "10月にサロン向けのブラッシュアップ講座を予定しています。日程と会場が確定しましたら、あらためてご案内します。ご希望の地域があればチャットでお知らせください。",
+    audience: "all",
+    is_pinned: false,
+    published_at: null,
+    author_id: USER_IDS.rika,
+    created_at: "2026-08-09T09:20:00+09:00",
+    updated_at: "2026-08-09T09:35:00+09:00",
+  },
   {
     id: "50000000-0000-4000-8000-000000000001",
     title: "【重要】9月フォローアップ勉強会のご案内",

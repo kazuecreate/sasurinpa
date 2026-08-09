@@ -12,7 +12,7 @@ import {
   LessonStatusBadge,
   toLessonStatus,
 } from "@/components/student/status-badges";
-import { Button } from "@/components/ui/button";
+import { ButtonLink } from "@/components/ui/button-link";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatDuration } from "@/lib/format";
 import {
@@ -137,45 +137,41 @@ export default async function LessonPage({
         {/* 前後のレッスン */}
         <div className="flex flex-wrap gap-3">
           {previousLesson && (
-            <Button
+            <ButtonLink
               variant="outline"
               size="lg"
+              href={`/curriculum/${previousLesson.id}`}
               className="h-auto flex-1 justify-start gap-3 rounded-2xl px-4 py-3 text-left whitespace-normal"
-              render={
-                <Link href={`/curriculum/${previousLesson.id}`}>
-                  <ArrowLeft className="shrink-0" />
-                  <span className="flex min-w-0 flex-col gap-0.5">
-                    <span className="text-xs text-muted-foreground">
-                      前のレッスン
-                    </span>
-                    <span className="truncate text-sm font-medium">
-                      {previousLesson.title}
-                    </span>
-                  </span>
-                </Link>
-              }
-            />
+            >
+              <ArrowLeft className="shrink-0" />
+              <span className="flex min-w-0 flex-col gap-0.5">
+                <span className="text-xs text-muted-foreground">
+                  前のレッスン
+                </span>
+                <span className="truncate text-sm font-medium">
+                  {previousLesson.title}
+                </span>
+              </span>
+            </ButtonLink>
           )}
 
           {nextLesson && (
-            <Button
+            <ButtonLink
               variant="outline"
               size="lg"
+              href={`/curriculum/${nextLesson.id}`}
               className="h-auto flex-1 justify-end gap-3 rounded-2xl px-4 py-3 text-right whitespace-normal"
-              render={
-                <Link href={`/curriculum/${nextLesson.id}`}>
-                  <span className="flex min-w-0 flex-col gap-0.5">
-                    <span className="text-xs text-muted-foreground">
-                      次のレッスン
-                    </span>
-                    <span className="truncate text-sm font-medium">
-                      {nextLesson.title}
-                    </span>
-                  </span>
-                  <ArrowRight className="shrink-0" />
-                </Link>
-              }
-            />
+            >
+              <span className="flex min-w-0 flex-col gap-0.5">
+                <span className="text-xs text-muted-foreground">
+                  次のレッスン
+                </span>
+                <span className="truncate text-sm font-medium">
+                  {nextLesson.title}
+                </span>
+              </span>
+              <ArrowRight className="shrink-0" />
+            </ButtonLink>
           )}
         </div>
       </div>

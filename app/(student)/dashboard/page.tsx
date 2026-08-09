@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import {
   ArrowRight,
   Award,
@@ -13,7 +12,7 @@ import {
 
 import { LESSON_TYPE_META } from "@/components/student/lesson-type";
 import { SubmissionStatusBadge } from "@/components/student/status-badges";
-import { Button } from "@/components/ui/button";
+import { ButtonLink } from "@/components/ui/button-link";
 import {
   Card,
   CardContent,
@@ -123,18 +122,16 @@ export default function DashboardPage() {
                 </div>
 
                 <div className="flex flex-wrap items-center gap-3">
-                  <Button
+                  <ButtonLink
                     size="lg"
-                    render={
-                      <Link href={`/curriculum/${nextLesson.id}`}>
-                        {nextLessonProgress?.last_position_seconds
-                          ? "つづきから受講する"
-                          : "このレッスンを受講する"}
-                        <ArrowRight />
-                      </Link>
-                    }
+                    href={`/curriculum/${nextLesson.id}`}
                     className="rounded-2xl"
-                  />
+                  >
+                    {nextLessonProgress?.last_position_seconds
+                      ? "つづきから受講する"
+                      : "このレッスンを受講する"}
+                    <ArrowRight />
+                  </ButtonLink>
                   <span className="text-xs text-muted-foreground tabular-nums">
                     {nextLessonProgress?.last_position_seconds
                       ? `${formatClock(nextLessonProgress.last_position_seconds)} / ${formatClock(nextLesson.duration_seconds)}`
