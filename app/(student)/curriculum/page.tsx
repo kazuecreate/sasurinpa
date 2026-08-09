@@ -16,15 +16,17 @@ import {
   getCurriculum,
   getProgress,
 } from "@/lib/mock";
-import { CURRENT_STUDENT_ID } from "@/lib/session";
+import { getCurrentStudent } from "@/lib/session";
 
 export const metadata: Metadata = {
   title: "カリキュラム",
 };
 
-export default function CurriculumPage() {
+export default async function CurriculumPage() {
+  const student = await getCurrentStudent();
+
   const chapters = getCurriculum();
-  const progress = getCourseProgress(CURRENT_STUDENT_ID);
+  const progress = getCourseProgress(student.id);
 
   return (
     <div className="flex flex-col gap-6">
@@ -54,7 +56,7 @@ export default function CurriculumPage() {
       <div className="flex flex-col gap-5">
         {chapters.map((chapter, chapterIndex) => {
           const completedCount = chapter.lessons.filter(
-            (lesson) => getProgress(CURRENT_STUDENT_ID, lesson.id)?.is_completed,
+            (lesson) => getProgress(student.id, lesson.id)?.is_completed,
           ).length;
 
           return (
@@ -79,7 +81,7 @@ export default function CurriculumPage() {
               <CardContent className="flex flex-col">
                 {chapter.lessons.map((lesson) => {
                   const lessonProgress = getProgress(
-                    CURRENT_STUDENT_ID,
+                    student.id,
                     lesson.id,
                   );
 

@@ -25,16 +25,18 @@ import {
   getThreadForStudent,
   getUnreadCount,
 } from "@/lib/mock";
-import { CURRENT_STUDENT_ID } from "@/lib/session";
+import { getCurrentStudent } from "@/lib/session";
 
 export const metadata: Metadata = {
   title: "サポート",
 };
 
-export default function SupportPage() {
-  const thread = getThreadForStudent(CURRENT_STUDENT_ID);
+export default async function SupportPage() {
+  const student = await getCurrentStudent();
+
+  const thread = getThreadForStudent(student.id);
   const messages = thread ? getMessages(thread.id) : [];
-  const unreadCount = thread ? getUnreadCount(thread.id, CURRENT_STUDENT_ID) : 0;
+  const unreadCount = thread ? getUnreadCount(thread.id, student.id) : 0;
 
   const instructor = demoCourse.created_by
     ? getProfile(demoCourse.created_by)
@@ -107,7 +109,7 @@ export default function SupportPage() {
             ) : (
               <ul className="flex flex-col gap-5">
                 {timeline.map(({ message, date, showDivider }) => {
-                  const isOwn = message.sender_id === CURRENT_STUDENT_ID;
+                  const isOwn = message.sender_id === student.id;
                   const sender = getProfile(message.sender_id);
 
                   return (

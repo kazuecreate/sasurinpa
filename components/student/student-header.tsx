@@ -7,10 +7,12 @@ import {
   BookOpen,
   ClipboardList,
   LayoutDashboard,
+  LogOut,
   MessagesSquare,
 } from "lucide-react";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { logout } from "@/lib/auth-actions";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
@@ -60,6 +62,18 @@ export function StudentHeader({ studentName, initial }: StudentHeaderProps) {
           <span className="hidden text-sm font-medium lg:inline">
             {studentName}
           </span>
+
+          {/* Server Action を直接 action に渡す（Cookie の削除はサーバー側でしか行えない）。 */}
+          <form action={logout}>
+            <button
+              type="submit"
+              title="ログアウト"
+              className="flex items-center gap-1.5 rounded-2xl px-2 py-1.5 text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            >
+              <LogOut className="size-3.5" />
+              <span className="sr-only lg:not-sr-only">ログアウト</span>
+            </button>
+          </form>
         </div>
 
         <nav

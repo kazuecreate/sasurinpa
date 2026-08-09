@@ -45,13 +45,15 @@ import {
   getThreadForStudent,
   getUnreadCount,
 } from "@/lib/mock";
-import { CURRENT_ADMIN_ID, getFamilyName } from "@/lib/session";
+import { getCurrentAdmin, getFamilyName } from "@/lib/session";
 
 export const metadata: Metadata = {
   title: "受講生管理",
 };
 
-export default function AdminStudentsPage() {
+export default async function AdminStudentsPage() {
+  const admin = await getCurrentAdmin();
+
   const assignments = getAssignments();
   const lessonCount = getOrderedLessons().length;
 
@@ -65,7 +67,7 @@ export default function AdminStudentsPage() {
       progress: getCourseProgress(student.id),
       submissions: getAssignmentsForStudent(student.id),
       certificate: getCertificate(student.id),
-      unreadCount: thread ? getUnreadCount(thread.id, CURRENT_ADMIN_ID) : 0,
+      unreadCount: thread ? getUnreadCount(thread.id, admin.id) : 0,
     };
   });
 

@@ -6,13 +6,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 `PROMPT.md` is the source of truth for scope, roles, and design tokens — read it before feature work. Of its four setup tasks, **1–4 are done**: scaffold, design system, DB schema + mock data, and the student dashboard / curriculum screens. On top of that, **every student screen PROMPT.md lists now exists** (dashboard, curriculum, assignments, support chat, certificate) and the four admin screens (roster, grading, curriculum CMS, announcements) exist as **read-only base UI**.
 
+**Session routing is real; password auth is not.** `/login` lists the mock profiles and a Server Action writes `sasurinpa_session=<role>:<userId>` (HttpOnly, SameSite=lax, 7 days). `proxy.ts` sends anonymous visitors to `/login`, bounces students out of `/admin/*`, and keeps logged-in users off the auth pages; `getCurrentStudent()` / `getCurrentAdmin()` re-check on every render so a forged cookie can't get through by skipping the proxy. Log in as a different profile to exercise other data states — 小林 あゆみ is the graduate (certificate, all課題 approved, closed chat thread), 田中 ゆかり is at 50%.
+
 Still unbuilt:
 
-- **Auth** — Supabase packages are installed but nothing is wired: no client helper, no `.env`, no middleware. `lib/session.ts` is the seam; it hard-codes the logged-in student as 花山 美咲 (`DEMO_STUDENT_ID`, progress 75%) and the logged-in admin as RIKA (`DEMO_ADMIN_ID`). There is no role guard on `/admin/*` yet — anyone can open it.
-- **Every write path.** Both views read from `lib/mock` and every form is appearance-only: inputs are uncontrolled, all buttons are `type="button"`, and 提出 / 送信 / reorder / 編集 / 配信 do nothing. `components/mock-form.tsx` holds the shared field, select, and "not wired yet" notice. Each of those forms is where a Server Action goes.
+- **Password auth** — Supabase packages are installed but no client helper and no `.env`. The swap points are commented in `lib/session.ts`, `lib/auth-actions.ts`, `lib/session-cookie.ts`, `proxy.ts`, and both auth pages. The email/password fields on `/login` and the whole `/signup` form are appearance-only.
+- **Every other write path.** Apart from login/logout, both views read from `lib/mock` and every form is appearance-only: inputs are uncontrolled, buttons are `type="button"`, and 提出 / 送信 / reorder / 編集 / 配信 do nothing. `components/mock-form.tsx` holds the shared field, select, and "not wired yet" notice.
 - **Admin chat** — PROMPT.md also lists per-student chat for the admin side; the student half is built (`/support`) and the mock threads and `getMessageThreads()` / `getUnreadCount()` helpers exist, but the admin surface today is only an unread count on the roster.
-
-Because the demo student (花山 美咲) has no certificate, `/certificate` renders its locked state by default. The issued state is real, not dead code — point `CURRENT_STUDENT_ID` at `USER_IDS.ayumi` to see it. Same trick exercises the approved-assignment and closed-thread branches.
+- **Impersonation** — the admin header used to link to `/dashboard`; role routing made that a redirect loop, so it's gone. Previewing the student view needs real impersonation.
 
 ## Commands
 
@@ -36,7 +37,13 @@ No test runner is configured. If tests are needed, pick and set up a framework f
 - Dark mode is deliberately disabled: `globals.css` rebinds `@custom-variant dark` to a never-matching `.dark` ancestor so shadcn's leftover `dark:` utilities can't fire from the OS setting. Don't add a dark palette.
 - Font is M PLUS Rounded 1c via `next/font/google`, loaded with `preload: false` and **no `subsets`** — passing `subsets` would drop the Japanese glyphs. Don't "fix" that.
 - `@/*` path alias maps to the repo root (`@/app/...`, `@/lib/...`).
-- `LayoutProps<"/">` / `PageProps<"/curriculum/[lessonId]">` are Next.js 16 globally-generated types (from `.next/types`), not local imports. Route-group segments like `(student)` do **not** appear in those path strings.
+- `LayoutProps<"/">` / `PageProps<"/curriculum/[lessonId]">` are Next.js 16 globally-generated types (from `.next/types`), not local imports. Route-group segments like `(student)` do **not** appear in those path strings. After adding a route, run `npx next typegen` or `tsc` will fail on a `PageProps` path it hasn't generated yet.
+- **`middleware.ts` is deprecated in Next 16 and renamed to `proxy.ts`** — same API, exported as `proxy`. Don't add a `middleware.ts` back; see `node_modules/next/dist/docs/01-app/03-api-reference/03-file-conventions/proxy.md`.
+- `cookies()` is async and read-only during render. Writes (login/logout) have to happen in a Server Action or Route Handler — that's why `lib/auth-actions.ts` exists. Reading it makes a route dynamic, so every authenticated page is `ƒ` in the build output; only `/signup` and `/_not-found` stay static.
+- Server Actions are CSRF-guarded by comparing the request's `Origin` against `x-forwarded-host`/`host`; a mismatch aborts with "Invalid Server Actions request." (E80). **Any port forwarding breaks this**, and which side looks wrong depends on how you opened the app — via the Codespaces URL the `Origin` is `<codespace>-3000.app.github.dev`, via VS Code's local forwarding it's `localhost:3000` while `x-forwarded-host` is the tunnel's. `next.config.ts` therefore allows both families in development only (`NODE_ENV === "development"`, so `next build` emits no `serverActions` config at all — a production build prints no `Experiments` line).
+  - The check tests the **`Origin`** against `allowedOrigins`, not the host, so listing the origins you actually browse from is what fixes it.
+  - **Ports must be enumerated.** `localhost:*` silently never matches: the matcher (`csrf-protection.js`) wildcards per dot-separated DNS label, and the compared value includes the port, so `localhost:*` only matches a host literally named that. Verified with `isCsrfOriginAllowed`. Don't use `*.app.github.dev` either — it would let any Codespace post actions here.
+- Testing a Server Action outside a browser needs a matching `Origin` header too. The no-JS path works: multipart POST to the page URL with the `$ACTION_ID_…` field from the rendered form (URL-encoded bodies are rejected).
 
 ## Layout of the code
 
@@ -45,9 +52,13 @@ No test runner is configured. If tests are needed, pick and set up a framework f
 | `supabase/migrations/` | The real DDL: schema, RLS policies, storage buckets |
 | `types/database.ts` | Hand-written row types mirroring that DDL — update both together until `supabase gen types` replaces it |
 | `lib/mock/` | Mock rows (`ids.ts` holds every fixed UUID) plus the read helpers in `index.ts`. Helpers return the same shapes a Supabase query would, so swapping in real queries should not change callers. |
-| `lib/session.ts` | The auth seam described above |
+| `proxy.ts` | Route-level session routing (Next 16's `middleware.ts`) |
+| `lib/session.ts` | Reads the session cookie → `ProfileRow`; `getCurrentStudent` / `getCurrentAdmin` redirect when the role doesn't match |
+| `lib/session-cookie.ts` | Cookie name, options, and `<role>:<userId>` encode/parse. Deliberately free of `next/headers` and React so `proxy.ts` can import it |
+| `lib/auth-actions.ts` | `login` / `logout` Server Actions (the only wired-up writes in the app) |
 | `lib/format.ts` | JST-fixed date / time / duration / playback-position formatting |
 | `app/(student)/` | Student route group: shared header+footer layout, `dashboard`, `curriculum`, `curriculum/[lessonId]`, `assignments`, `assignments/[assignmentId]`, `support`, `certificate` |
+| `app/(auth)/` | `login` and `signup`, on a centered card layout with no header nav |
 | `app/(admin)/` | Admin route group. Pages live under `admin/` inside it (`/admin/students`, `/admin/submissions`, `/admin/curriculum`, `/admin/announcements`) because a bare `/curriculum` would collide with the student route; `/admin` itself redirects to the roster. |
 | `components/student/` | Student-view pieces (header, lesson row, sidebar, media placeholders, completion button, badges, submission form/feedback/file, chat bubbles, certificate card) |
 | `components/admin/` | Admin-view pieces (its own header nav, page header, stat tiles, status badges, lesson editor row). Reuses `SubmissionStatusBadge`, `LESSON_TYPE_META` and `SUBMISSION_KIND_META` from `components/student/` rather than duplicating them — those modules are presentational and role-neutral. |

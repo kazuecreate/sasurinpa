@@ -1,13 +1,13 @@
 import { StudentHeader } from "@/components/student/student-header";
 import { getCurrentStudent, getFamilyName } from "@/lib/session";
 
-export default function StudentLayout({
+export default async function StudentLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  // 認証をつなぐまでは固定の受講生（花山 美咲）としてレンダリングする。
-  const student = getCurrentStudent();
+  // 未ログイン・管理者はここで弾かれる（getCurrentStudent が redirect する）。
+  const student = await getCurrentStudent();
 
   return (
     <div className="flex min-h-full flex-1 flex-col">

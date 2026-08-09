@@ -39,35 +39,31 @@ import {
   getThreadForStudent,
   getUnreadCount,
 } from "@/lib/mock";
-import {
-  CURRENT_STUDENT_ID,
-  getCurrentStudent,
-  getFamilyName,
-} from "@/lib/session";
+import { getCurrentStudent, getFamilyName } from "@/lib/session";
 
 export const metadata: Metadata = {
   title: "ダッシュボード",
 };
 
-export default function DashboardPage() {
-  const student = getCurrentStudent();
+export default async function DashboardPage() {
+  const student = await getCurrentStudent();
   const course = demoCourse;
 
-  const progress = getCourseProgress(CURRENT_STUDENT_ID);
+  const progress = getCourseProgress(student.id);
   const chapters = getCurriculum();
-  const nextLesson = getNextLesson(CURRENT_STUDENT_ID);
+  const nextLesson = getNextLesson(student.id);
   const nextChapter = nextLesson ? getChapter(nextLesson.chapter_id) : undefined;
   const nextLessonProgress = nextLesson
-    ? getProgress(CURRENT_STUDENT_ID, nextLesson.id)
+    ? getProgress(student.id, nextLesson.id)
     : undefined;
 
-  const assignments = getAssignmentsForStudent(CURRENT_STUDENT_ID);
-  const announcements = getAnnouncements(CURRENT_STUDENT_ID).slice(0, 3);
-  const certificate = getCertificate(CURRENT_STUDENT_ID);
+  const assignments = getAssignmentsForStudent(student.id);
+  const announcements = getAnnouncements(student.id).slice(0, 3);
+  const certificate = getCertificate(student.id);
 
-  const supportThread = getThreadForStudent(CURRENT_STUDENT_ID);
+  const supportThread = getThreadForStudent(student.id);
   const unreadCount = supportThread
-    ? getUnreadCount(supportThread.id, CURRENT_STUDENT_ID)
+    ? getUnreadCount(supportThread.id, student.id)
     : 0;
 
   const remainingLessons = progress.total - progress.completed;

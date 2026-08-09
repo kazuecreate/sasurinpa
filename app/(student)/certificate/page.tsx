@@ -26,18 +26,18 @@ import {
   getCertificate,
   getCourseProgress,
 } from "@/lib/mock";
-import { CURRENT_STUDENT_ID, getCurrentStudent } from "@/lib/session";
+import { getCurrentStudent } from "@/lib/session";
 
 export const metadata: Metadata = {
   title: "デジタル認定講師証",
 };
 
-export default function CertificatePage() {
-  const student = getCurrentStudent();
-  const certificate = getCertificate(CURRENT_STUDENT_ID);
+export default async function CertificatePage() {
+  const student = await getCurrentStudent();
+  const certificate = getCertificate(student.id);
 
-  const progress = getCourseProgress(CURRENT_STUDENT_ID);
-  const assignments = getAssignmentsForStudent(CURRENT_STUDENT_ID);
+  const progress = getCourseProgress(student.id);
+  const assignments = getAssignmentsForStudent(student.id);
   const approvedCount = assignments.filter(
     ({ submission }) => submission?.status === "approved",
   ).length;

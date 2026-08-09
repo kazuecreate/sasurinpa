@@ -1,13 +1,13 @@
 import { AdminHeader } from "@/components/admin/admin-header";
 import { getCurrentAdmin } from "@/lib/session";
 
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  // 認証をつなぐまでは固定の管理者（RIKA）としてレンダリングする。
-  const admin = getCurrentAdmin();
+  // 未ログイン・受講生はここで弾かれる（getCurrentAdmin が redirect する）。
+  const admin = await getCurrentAdmin();
 
   return (
     <div className="flex min-h-full flex-1 flex-col">

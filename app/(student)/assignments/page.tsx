@@ -21,7 +21,7 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { formatDate } from "@/lib/format";
 import { demoCourse, getAssignmentsForStudent } from "@/lib/mock";
-import { CURRENT_STUDENT_ID } from "@/lib/session";
+import { getCurrentStudent } from "@/lib/session";
 import type { SubmissionStatus } from "@/types/database";
 
 export const metadata: Metadata = {
@@ -37,8 +37,9 @@ const ACTION_LABEL: Record<SubmissionStatus | "not_submitted", string> = {
   revision_requested: "内容を直して再提出する",
 };
 
-export default function AssignmentsPage() {
-  const assignments = getAssignmentsForStudent(CURRENT_STUDENT_ID);
+export default async function AssignmentsPage() {
+  const student = await getCurrentStudent();
+  const assignments = getAssignmentsForStudent(student.id);
 
   const approvedCount = assignments.filter(
     ({ submission }) => submission?.status === "approved",

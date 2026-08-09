@@ -22,7 +22,7 @@ import {
   getOrderedLessons,
   getProgress,
 } from "@/lib/mock";
-import { CURRENT_STUDENT_ID } from "@/lib/session";
+import { getCurrentStudent } from "@/lib/session";
 
 export async function generateMetadata({
   params,
@@ -37,6 +37,7 @@ export default async function LessonPage({
   params,
 }: PageProps<"/curriculum/[lessonId]">) {
   const { lessonId } = await params;
+  const student = await getCurrentStudent();
 
   const lesson = getLesson(lessonId);
   if (!lesson) notFound();
@@ -50,7 +51,7 @@ export default async function LessonPage({
   const previousLesson = orderedLessons[currentIndex - 1];
   const nextLesson = orderedLessons[currentIndex + 1];
 
-  const lessonProgress = getProgress(CURRENT_STUDENT_ID, lesson.id);
+  const lessonProgress = getProgress(student.id, lesson.id);
   const status = toLessonStatus(
     lessonProgress?.is_completed,
     lessonProgress?.last_position_seconds,
@@ -58,7 +59,7 @@ export default async function LessonPage({
 
   const completedLessonIds = new Set(
     orderedLessons
-      .filter((l) => getProgress(CURRENT_STUDENT_ID, l.id)?.is_completed)
+      .filter((l) => getProgress(student.id, l.id)?.is_completed)
       .map((l) => l.id),
   );
 

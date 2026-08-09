@@ -2,16 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  ClipboardCheck,
-  ExternalLink,
-  Layers,
-  Megaphone,
-  Users,
-} from "lucide-react";
+import { ClipboardCheck, Layers, LogOut, Megaphone, Users } from "lucide-react";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { logout } from "@/lib/auth-actions";
 import { cn } from "@/lib/utils";
 
 /** 管理画面のナビゲーション。受講生ヘッダーとは別建てにしている。 */
@@ -69,13 +64,21 @@ export function AdminHeader({ adminName, initial }: AdminHeaderProps) {
           >
             管理者
           </Badge>
-          <Link
-            href="/dashboard"
-            className="flex items-center gap-1 rounded-2xl px-2 py-1.5 text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-          >
-            <ExternalLink className="size-3.5" />
-            <span className="hidden lg:inline">受講生画面</span>
-          </Link>
+          {/*
+            以前ここにあった「受講生画面」リンクは外した。ロールで振り分けるように
+            なったため、管理者が /dashboard を開いても /admin に戻されるだけになる。
+            受講生画面の下見が要るなら、なりすまし（impersonation）の実装が必要。
+          */}
+          <form action={logout}>
+            <button
+              type="submit"
+              title="ログアウト"
+              className="flex items-center gap-1 rounded-2xl px-2 py-1.5 text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            >
+              <LogOut className="size-3.5" />
+              <span className="sr-only lg:not-sr-only">ログアウト</span>
+            </button>
+          </form>
         </div>
 
         <nav className="flex w-full items-center gap-1 sm:order-2 sm:w-auto">

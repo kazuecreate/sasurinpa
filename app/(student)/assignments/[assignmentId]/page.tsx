@@ -23,7 +23,7 @@ import {
   getChapter,
   getSubmission,
 } from "@/lib/mock";
-import { CURRENT_STUDENT_ID } from "@/lib/session";
+import { getCurrentStudent } from "@/lib/session";
 
 export async function generateMetadata({
   params,
@@ -38,11 +38,12 @@ export default async function AssignmentPage({
   params,
 }: PageProps<"/assignments/[assignmentId]">) {
   const { assignmentId } = await params;
+  const student = await getCurrentStudent();
 
   const assignment = getAssignment(assignmentId);
   if (!assignment) notFound();
 
-  const submission = getSubmission(assignment.id, CURRENT_STUDENT_ID);
+  const submission = getSubmission(assignment.id, student.id);
   const chapter = assignment.chapter_id
     ? getChapter(assignment.chapter_id)
     : undefined;
