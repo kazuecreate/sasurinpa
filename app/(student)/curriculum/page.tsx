@@ -29,19 +29,19 @@ export default async function CurriculumPage() {
   const progress = getCourseProgress(student.id);
 
   return (
-    <div className="flex flex-col gap-6">
-      <header className="flex flex-col gap-1.5">
+    <div className="flex flex-col gap-8">
+      <header className="flex flex-col gap-2">
         <p className="text-sm text-muted-foreground">{demoCourse.title}</p>
-        <h1 className="font-heading text-2xl font-bold tracking-tight sm:text-3xl">
+        <h1 className="font-heading text-2xl font-medium sm:text-3xl">
           カリキュラム
         </h1>
-        <p className="max-w-2xl text-sm leading-7 text-muted-foreground">
+        <p className="max-w-2xl text-sm leading-8 text-muted-foreground">
           {demoCourse.description}
         </p>
       </header>
 
       <Card className="rounded-2xl">
-        <CardContent className="flex flex-col gap-2.5 py-1">
+        <CardContent className="flex flex-col gap-3">
           <div className="flex items-baseline justify-between gap-3">
             <span className="text-sm font-medium">全体の進捗</span>
             <span className="text-sm text-muted-foreground tabular-nums">
@@ -53,7 +53,7 @@ export default async function CurriculumPage() {
         </CardContent>
       </Card>
 
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-6">
         {chapters.map((chapter, chapterIndex) => {
           const completedCount = chapter.lessons.filter(
             (lesson) => getProgress(student.id, lesson.id)?.is_completed,
@@ -63,7 +63,7 @@ export default async function CurriculumPage() {
             <Card key={chapter.id} className="rounded-2xl">
               <CardHeader>
                 <CardTitle className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                  <span className="rounded-2xl bg-brand-pink-soft px-2.5 py-1 text-xs font-medium text-secondary-foreground">
+                  <span className="rounded-2xl bg-brand-pink-soft px-3 py-1.5 text-xs font-medium text-secondary-foreground">
                     第{chapterIndex + 1}章
                   </span>
                   <span className="text-base">{chapter.title}</span>
@@ -72,7 +72,7 @@ export default async function CurriculumPage() {
                   </span>
                 </CardTitle>
                 {chapter.description && (
-                  <CardDescription className="leading-6">
+                  <CardDescription className="leading-8">
                     {chapter.description}
                   </CardDescription>
                 )}

@@ -35,16 +35,16 @@ export function StudentHeader({ studentName, initial }: StudentHeaderProps) {
   return (
     <header className="sticky top-0 z-20 border-b border-border/70 bg-background/85 backdrop-blur-md">
       {/* 項目が5つあるので、狭い画面ではメニューだけを2行目に折り返す。 */}
-      <div className="mx-auto flex w-full max-w-5xl flex-wrap items-center gap-x-4 gap-y-2 px-5 py-3 sm:flex-nowrap sm:px-6">
+      <div className="mx-auto flex w-full max-w-5xl flex-wrap items-center gap-x-4 gap-y-3 px-5 py-4 sm:flex-nowrap sm:px-8">
         <Link href="/dashboard" className="flex items-center gap-3">
           <span
             aria-hidden
-            className="flex size-9 items-center justify-center rounded-2xl bg-brand-pink-soft text-base text-primary-foreground"
+            className="flex size-10 items-center justify-center rounded-xl bg-brand-pink-soft text-base text-primary-foreground"
           >
             🤲
           </span>
           <span className="flex flex-col leading-tight">
-            <span className="font-heading text-base font-bold tracking-tight">
+            <span className="font-heading text-base font-medium tracking-tight">
               さすりんぱ
             </span>
             <span className="hidden text-[0.7rem] text-muted-foreground sm:block">
@@ -53,7 +53,7 @@ export function StudentHeader({ studentName, initial }: StudentHeaderProps) {
           </span>
         </Link>
 
-        <div className="ml-auto flex items-center gap-2 sm:order-last sm:border-l sm:border-border/70 sm:pl-3">
+        <div className="ml-auto flex items-center gap-2.5 sm:order-last sm:border-l sm:border-border/70 sm:pl-4">
           <Avatar>
             <AvatarFallback className="bg-brand-sage-soft text-accent-foreground">
               {initial}
@@ -68,7 +68,7 @@ export function StudentHeader({ studentName, initial }: StudentHeaderProps) {
             <button
               type="submit"
               title="ログアウト"
-              className="flex items-center gap-1.5 rounded-2xl px-2 py-1.5 text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              className="flex items-center gap-1.5 rounded-xl px-3 py-2.5 text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
             >
               <LogOut className="size-3.5" />
               <span className="sr-only lg:not-sr-only">ログアウト</span>
@@ -90,7 +90,8 @@ export function StudentHeader({ studentName, initial }: StudentHeaderProps) {
                 href={item.href}
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
-                  "flex items-center gap-1.5 rounded-2xl px-3 py-2 text-sm font-medium transition-colors",
+                  // 5項目が lg でぎりぎり1行に収まるので、横の余白は広げず縦だけ厚くする。
+                  "flex items-center gap-1.5 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
                   isActive
                     ? "bg-brand-pink-soft text-secondary-foreground"
                     : "text-muted-foreground hover:bg-muted hover:text-foreground",

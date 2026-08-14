@@ -32,7 +32,7 @@ export function CertificateCard({
     >
       <div
         className={cn(
-          "flex flex-col items-center gap-6 rounded-2xl border border-brand-sage/40 bg-card/80 px-6 py-10 text-center sm:px-12 sm:py-14",
+          "flex flex-col items-center gap-8 rounded-2xl border border-brand-sage/40 bg-card/80 px-6 py-12 text-center sm:px-12 sm:py-16",
           !isIssued && "opacity-45",
         )}
         // 見本は読み上げても意味がないので、支援技術からは隠す。
@@ -45,7 +45,7 @@ export function CertificateCard({
           >
             🤲
           </span>
-          <p className="font-heading text-lg font-bold tracking-widest sm:text-xl">
+          <p className="font-heading text-lg font-medium tracking-widest sm:text-xl">
             認定講師証
           </p>
           <p className="text-[0.65rem] tracking-[0.3em] text-muted-foreground">
@@ -55,7 +55,7 @@ export function CertificateCard({
 
         <div className="flex w-full flex-col items-center gap-2">
           <p className="text-xs text-muted-foreground">{courseTitle}</p>
-          <p className="min-h-9 border-b border-brand-pink/50 px-8 pb-1.5 font-heading text-2xl font-bold tracking-wide sm:text-3xl">
+          <p className="min-h-9 border-b border-brand-pink/50 px-8 pb-2 font-heading text-2xl font-medium tracking-wide sm:text-3xl">
             {certificate?.recipient_name ?? "＿＿＿＿＿"}
             <span className="ml-2 text-base font-normal">様</span>
           </p>
@@ -69,7 +69,7 @@ export function CertificateCard({
           必要な知識と技術を修めたことをここに証します。
         </p>
 
-        <dl className="grid w-full max-w-md gap-x-8 gap-y-3 text-left sm:grid-cols-3">
+        <dl className="grid w-full max-w-md gap-x-8 gap-y-4 text-left sm:grid-cols-3">
           <div className="flex flex-col gap-0.5">
             <dt className="text-[0.7rem] text-muted-foreground">認定ID</dt>
             <dd className="font-mono text-sm">
@@ -92,12 +92,12 @@ export function CertificateCard({
       </div>
 
       {!isIssued && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-2.5 p-6 text-center">
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center">
           <span className="flex size-11 items-center justify-center rounded-full bg-card shadow-soft ring-1 ring-foreground/10">
             <Lock aria-hidden className="size-4 text-muted-foreground" />
           </span>
           <p className="text-sm font-medium">まだ発行されていません</p>
-          <p className="max-w-xs text-xs leading-6 text-muted-foreground">
+          <p className="max-w-xs text-xs leading-7 text-muted-foreground">
             修了の条件を満たすと、この認定証にあなたのお名前と認定IDが入ります。
           </p>
         </div>

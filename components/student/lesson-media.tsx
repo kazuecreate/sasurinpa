@@ -41,7 +41,7 @@ export function LessonVideo({
         </p>
       </div>
 
-      <div className="flex items-center gap-3 bg-card px-4 py-3">
+      <div className="flex items-center gap-4 bg-card px-5 py-4">
         <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-muted">
           <div
             className="h-full rounded-full bg-brand-pink"
@@ -67,15 +67,20 @@ export function LessonPdf({
   const fileName = pdfUrl.split("/").at(-1) ?? "資料.pdf";
 
   return (
-    <div className="flex flex-col items-center gap-4 rounded-2xl bg-linear-to-br from-brand-sage-soft via-background to-brand-pink-soft px-6 py-12 ring-1 ring-foreground/10">
-      <span className="flex size-16 items-center justify-center rounded-2xl bg-card shadow-soft ring-1 ring-foreground/10">
+    <div className="flex flex-col items-center gap-5 rounded-2xl bg-linear-to-br from-brand-sage-soft via-background to-brand-pink-soft px-6 py-14 ring-1 ring-foreground/10">
+      <span className="flex size-16 items-center justify-center rounded-xl bg-card shadow-soft ring-1 ring-foreground/10">
         <FileText className="size-7 text-brand-sage" />
       </span>
       <div className="flex flex-col items-center gap-1 text-center">
         <p className="font-heading text-base font-medium">{title}</p>
         <p className="font-mono text-xs text-muted-foreground">{fileName}</p>
       </div>
-      <Button size="lg" variant="secondary" disabled className="rounded-2xl">
+      <Button
+        size="lg"
+        variant="secondary"
+        disabled
+        className="h-11 rounded-xl px-5"
+      >
         <Download />
         PDFをひらく
       </Button>

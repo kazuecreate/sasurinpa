@@ -56,14 +56,14 @@ export default async function SupportPage() {
   });
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_16rem] lg:items-start">
-      <div className="flex flex-col gap-5">
-        <header className="flex flex-col gap-1.5">
+    <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_16rem] lg:items-start">
+      <div className="flex flex-col gap-6">
+        <header className="flex flex-col gap-2">
           <p className="text-sm text-muted-foreground">{demoCourse.title}</p>
-          <h1 className="font-heading text-2xl font-bold tracking-tight sm:text-3xl">
+          <h1 className="font-heading text-2xl font-medium sm:text-3xl">
             サポート・チャット
           </h1>
-          <p className="max-w-2xl text-sm leading-7 text-muted-foreground">
+          <p className="max-w-2xl text-sm leading-8 text-muted-foreground">
             講座の内容でも、体の使い方でも、活動のご相談でも大丈夫です。
             {demoCourse.instructor_name} 先生と運営がお答えします。
           </p>
@@ -101,13 +101,13 @@ export default async function SupportPage() {
 
           <CardContent>
             {messages.length === 0 ? (
-              <p className="rounded-2xl bg-muted/60 px-4 py-8 text-center text-sm leading-7 text-muted-foreground">
+              <p className="rounded-2xl bg-muted/60 px-5 py-10 text-center text-sm leading-8 text-muted-foreground">
                 まだやりとりはありません。
                 <br />
                 下の入力欄から、お気軽に最初のご質問をどうぞ。
               </p>
             ) : (
-              <ul className="flex flex-col gap-5">
+              <ul className="flex flex-col gap-6">
                 {timeline.map(({ message, date, showDivider }) => {
                   const isOwn = message.sender_id === student.id;
                   const sender = getProfile(message.sender_id);
@@ -131,13 +131,13 @@ export default async function SupportPage() {
 
         {/* 入力欄（見た目のみ） */}
         <Card className="rounded-2xl">
-          <CardContent className="py-1">
+          <CardContent>
             {thread?.is_closed ? (
-              <p className="rounded-2xl bg-muted/60 px-4 py-3.5 text-xs leading-6 text-muted-foreground">
+              <p className="rounded-2xl bg-muted/60 px-5 py-4 text-xs leading-7 text-muted-foreground">
                 このスレッドは受付を終了しています。あらためてご相談がある場合は、新しくご質問をお送りください。
               </p>
             ) : (
-              <form className="flex flex-col gap-3">
+              <form className="flex flex-col gap-4">
                 <MockField
                   label="メッセージ"
                   htmlFor="support-message"
@@ -147,12 +147,16 @@ export default async function SupportPage() {
                     id="support-message"
                     rows={4}
                     placeholder="レッスンや課題で気になったことを、そのまま書いてくださって大丈夫です。"
-                    className="rounded-2xl"
+                    className="rounded-xl px-4 py-3"
                   />
                 </MockField>
 
-                <div className="flex flex-wrap items-center gap-2">
-                  <Button type="button" size="lg" className="rounded-2xl">
+                <div className="flex flex-wrap items-center gap-3">
+                  <Button
+                    type="button"
+                    size="lg"
+                    className="h-11 rounded-xl px-5"
+                  >
                     <Send />
                     送信する
                   </Button>
@@ -160,7 +164,7 @@ export default async function SupportPage() {
                     type="button"
                     size="lg"
                     variant="outline"
-                    className="rounded-2xl"
+                    className="h-11 rounded-xl px-5"
                   >
                     <Paperclip />
                     写真・動画を添付
@@ -177,18 +181,18 @@ export default async function SupportPage() {
         </Card>
       </div>
 
-      <aside className="flex flex-col gap-5 lg:sticky lg:top-24">
+      <aside className="flex flex-col gap-6 lg:sticky lg:top-28">
         {instructor && (
           <Card className="rounded-2xl">
             <CardHeader>
               <CardTitle>お答えする人</CardTitle>
             </CardHeader>
-            <CardContent className="flex flex-col gap-2">
+            <CardContent className="flex flex-col gap-2.5">
               <p className="font-heading text-base font-medium">
                 {instructor.full_name} 先生
               </p>
               {instructor.bio && (
-                <p className="text-xs leading-6 text-muted-foreground">
+                <p className="text-xs leading-7 text-muted-foreground">
                   {instructor.bio}
                 </p>
               )}
@@ -203,7 +207,7 @@ export default async function SupportPage() {
               お返事について
             </CardTitle>
           </CardHeader>
-          <CardContent className="flex flex-col gap-2 text-xs leading-6 text-muted-foreground">
+          <CardContent className="flex flex-col gap-3 text-xs leading-7 text-muted-foreground">
             <p>平日2〜3日以内を目安にお返事します。</p>
             <p>
               課題そのものへのご質問は、課題の提出画面から送っていただくと状況が分かりやすくなります。

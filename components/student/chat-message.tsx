@@ -25,7 +25,7 @@ export function ChatMessage({
   return (
     <li
       className={cn(
-        "flex max-w-[85%] items-end gap-2.5 sm:max-w-[75%]",
+        "flex max-w-[85%] items-end gap-3 sm:max-w-[75%]",
         isOwn && "ml-auto flex-row-reverse",
       )}
     >
@@ -37,14 +37,14 @@ export function ChatMessage({
         </Avatar>
       )}
 
-      <div className={cn("flex min-w-0 flex-col gap-1", isOwn && "items-end")}>
+      <div className={cn("flex min-w-0 flex-col gap-1.5", isOwn && "items-end")}>
         <span className="px-1 text-xs text-muted-foreground">
           {isOwn ? "あなた" : senderName}
         </span>
 
         <p
           className={cn(
-            "rounded-2xl px-4 py-3 text-sm leading-7",
+            "rounded-2xl px-5 py-4 text-sm leading-8",
             isOwn
               ? "rounded-br-sm bg-brand-pink-soft text-secondary-foreground"
               : "rounded-bl-sm bg-card ring-1 ring-foreground/10",

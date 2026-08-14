@@ -13,10 +13,10 @@ export function SubmissionFile({ fileUrl }: { fileUrl: string }) {
   const fileName = fileUrl.split("/").at(-1) ?? "提出ファイル";
 
   return (
-    <div className="flex flex-wrap items-center gap-3 rounded-2xl bg-brand-sage-soft/50 px-4 py-3">
+    <div className="flex flex-wrap items-center gap-4 rounded-2xl bg-brand-sage-soft/50 px-5 py-4">
       <span
         aria-hidden
-        className="flex size-9 shrink-0 items-center justify-center rounded-2xl bg-card ring-1 ring-foreground/10"
+        className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-card ring-1 ring-foreground/10"
       >
         <MonitorPlay className="size-4 text-brand-sage" />
       </span>
@@ -28,7 +28,7 @@ export function SubmissionFile({ fileUrl }: { fileUrl: string }) {
         </span>
       </span>
 
-      <Button variant="secondary" disabled className="rounded-2xl">
+      <Button variant="secondary" disabled className="h-11 rounded-xl px-5">
         動画を見る
       </Button>
     </div>

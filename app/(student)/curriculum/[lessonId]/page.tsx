@@ -66,8 +66,8 @@ export default async function LessonPage({
   const typeMeta = LESSON_TYPE_META[lesson.lesson_type];
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-start">
-      <div className="flex flex-col gap-5">
+    <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-start">
+      <div className="flex flex-col gap-6">
         <nav
           aria-label="パンくず"
           className="flex flex-wrap items-center gap-1 text-xs text-muted-foreground"
@@ -81,8 +81,8 @@ export default async function LessonPage({
           </span>
         </nav>
 
-        <header className="flex flex-col gap-2.5">
-          <h1 className="font-heading text-xl font-bold leading-relaxed tracking-tight sm:text-2xl">
+        <header className="flex flex-col gap-3">
+          <h1 className="font-heading text-xl font-medium leading-relaxed sm:text-2xl">
             {lesson.title}
           </h1>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted-foreground">
@@ -113,7 +113,7 @@ export default async function LessonPage({
 
         {lesson.lesson_type === "text" && lesson.content && (
           <Card className="rounded-2xl">
-            <CardContent className="py-2">
+            <CardContent>
               <LessonText content={lesson.content} />
             </CardContent>
           </Card>
@@ -121,14 +121,14 @@ export default async function LessonPage({
 
         {lesson.description && lesson.lesson_type !== "text" && (
           <Card className="rounded-2xl">
-            <CardContent className="py-1 text-sm leading-7 text-muted-foreground">
+            <CardContent className="text-sm leading-8 text-muted-foreground">
               {lesson.description}
             </CardContent>
           </Card>
         )}
 
         <Card className="rounded-2xl">
-          <CardContent className="py-1">
+          <CardContent>
             <LessonCompleteButton
               initialCompleted={lessonProgress?.is_completed ?? false}
             />
@@ -136,13 +136,13 @@ export default async function LessonPage({
         </Card>
 
         {/* 前後のレッスン */}
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-4">
           {previousLesson && (
             <ButtonLink
               variant="outline"
               size="lg"
               href={`/curriculum/${previousLesson.id}`}
-              className="h-auto flex-1 justify-start gap-3 rounded-2xl px-4 py-3 text-left whitespace-normal"
+              className="h-auto flex-1 justify-start gap-3 rounded-xl px-5 py-4 text-left whitespace-normal"
             >
               <ArrowLeft className="shrink-0" />
               <span className="flex min-w-0 flex-col gap-0.5">
@@ -161,7 +161,7 @@ export default async function LessonPage({
               variant="outline"
               size="lg"
               href={`/curriculum/${nextLesson.id}`}
-              className="h-auto flex-1 justify-end gap-3 rounded-2xl px-4 py-3 text-right whitespace-normal"
+              className="h-auto flex-1 justify-end gap-3 rounded-xl px-5 py-4 text-right whitespace-normal"
             >
               <span className="flex min-w-0 flex-col gap-0.5">
                 <span className="text-xs text-muted-foreground">
@@ -177,7 +177,7 @@ export default async function LessonPage({
         </div>
       </div>
 
-      <aside className="lg:sticky lg:top-24">
+      <aside className="lg:sticky lg:top-28">
         <CurriculumSidebar
           chapters={chapters}
           completedLessonIds={completedLessonIds}

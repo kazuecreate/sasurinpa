@@ -22,16 +22,16 @@ export function LessonRow({
   return (
     <Link
       href={`/curriculum/${lesson.id}`}
-      className="-mx-2 flex items-start gap-3.5 rounded-2xl px-3 py-3 transition-colors hover:bg-muted/70"
+      className="-mx-3 flex items-start gap-4 rounded-xl px-3 py-4 transition-colors hover:bg-muted/70"
     >
       <span
         aria-hidden
-        className="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-2xl bg-brand-cream ring-1 ring-foreground/10"
+        className="mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-xl bg-brand-cream ring-1 ring-foreground/10"
       >
         <typeMeta.icon className="size-4 text-brand-sage" />
       </span>
 
-      <div className="flex min-w-0 flex-1 flex-col gap-1">
+      <div className="flex min-w-0 flex-1 flex-col gap-1.5">
         <p className="font-medium leading-relaxed">{lesson.title}</p>
         {lesson.description && (
           <p className="line-clamp-1 text-xs text-muted-foreground">

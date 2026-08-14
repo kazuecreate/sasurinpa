@@ -72,12 +72,12 @@ export default async function DashboardPage() {
   ).length;
 
   return (
-    <div className="flex flex-col gap-6">
-      <header className="flex flex-col gap-1.5">
+    <div className="flex flex-col gap-8">
+      <header className="flex flex-col gap-2">
         <p className="text-sm text-muted-foreground">
           {course.instructor_name} 先生の講座
         </p>
-        <h1 className="font-heading text-2xl font-bold tracking-tight sm:text-3xl">
+        <h1 className="font-heading text-2xl font-medium sm:text-3xl">
           こんにちは、{getFamilyName(student)}さん
         </h1>
         <p className="text-sm text-muted-foreground">
@@ -85,7 +85,7 @@ export default async function DashboardPage() {
         </p>
       </header>
 
-      <div className="grid gap-5 lg:grid-cols-3">
+      <div className="grid gap-6 lg:grid-cols-3 lg:gap-8">
         {/* 学習進捗 + つづきから */}
         <Card className="rounded-2xl lg:col-span-2">
           <CardHeader>
@@ -96,10 +96,10 @@ export default async function DashboardPage() {
             </CardDescription>
           </CardHeader>
 
-          <CardContent className="flex flex-col gap-5">
-            <div className="flex flex-col gap-2.5">
+          <CardContent className="flex flex-col gap-6">
+            <div className="flex flex-col gap-3">
               <div className="flex items-baseline gap-2">
-                <span className="font-heading text-4xl font-bold text-secondary-foreground tabular-nums">
+                <span className="font-heading text-4xl font-medium text-secondary-foreground tabular-nums">
                   {progress.rate}
                 </span>
                 <span className="text-lg font-medium text-secondary-foreground">
@@ -113,7 +113,7 @@ export default async function DashboardPage() {
             </div>
 
             {nextLesson && (
-              <div className="flex flex-col gap-3 rounded-2xl bg-brand-pink-soft/60 p-4">
+              <div className="flex flex-col gap-4 rounded-2xl bg-brand-pink-soft/60 p-5">
                 <div className="flex flex-col gap-1">
                   <span className="flex items-center gap-1.5 text-xs font-medium text-secondary-foreground">
                     <PlayCircle className="size-3.5" />
@@ -131,7 +131,7 @@ export default async function DashboardPage() {
                   <ButtonLink
                     size="lg"
                     href={`/curriculum/${nextLesson.id}`}
-                    className="rounded-2xl"
+                    className="h-11 rounded-xl px-5"
                   >
                     {nextLessonProgress?.last_position_seconds
                       ? "つづきから受講する"
@@ -159,9 +159,9 @@ export default async function DashboardPage() {
             </CardTitle>
           </CardHeader>
 
-          <CardContent className="flex flex-1 flex-col gap-4">
+          <CardContent className="flex flex-1 flex-col gap-5">
             {certificate ? (
-              <div className="flex flex-1 flex-col justify-center gap-1 rounded-2xl bg-brand-sage-soft/60 p-4 text-center">
+              <div className="flex flex-1 flex-col justify-center gap-1.5 rounded-2xl bg-brand-sage-soft/60 p-5 text-center">
                 <p className="font-heading text-base font-medium">
                   {certificate.recipient_name} 様
                 </p>
@@ -171,15 +171,15 @@ export default async function DashboardPage() {
               </div>
             ) : (
               <>
-                <div className="flex flex-1 flex-col items-center justify-center gap-2 rounded-2xl bg-muted/60 p-5 text-center">
+                <div className="flex flex-1 flex-col items-center justify-center gap-3 rounded-2xl bg-muted/60 p-6 text-center">
                   <Lock className="size-5 text-muted-foreground" />
-                  <p className="text-xs leading-6 text-muted-foreground">
+                  <p className="text-xs leading-7 text-muted-foreground">
                     全レッスンの受講と課題の合格で
                     <br />
                     認定講師証が発行されます
                   </p>
                 </div>
-                <ul className="flex flex-col gap-1.5 text-xs text-muted-foreground">
+                <ul className="flex flex-col gap-2 text-xs text-muted-foreground">
                   <li className="flex justify-between">
                     <span>のこりレッスン</span>
                     <span className="font-medium text-foreground tabular-nums">
@@ -199,7 +199,7 @@ export default async function DashboardPage() {
             <ButtonLink
               href="/certificate"
               variant="outline"
-              className="rounded-2xl"
+              className="h-11 rounded-xl px-5"
             >
               {certificate ? "認定証を見る" : "修了までの条件を見る"}
               <ChevronRight />
@@ -208,7 +208,7 @@ export default async function DashboardPage() {
         </Card>
       </div>
 
-      <div className="grid gap-5 lg:grid-cols-2">
+      <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
         {/* 課題の提出状況 */}
         <Card className="rounded-2xl">
           <CardHeader>
@@ -221,11 +221,11 @@ export default async function DashboardPage() {
             </CardDescription>
           </CardHeader>
 
-          <CardContent className="flex flex-col gap-3">
+          <CardContent className="flex flex-col gap-4">
             {assignments.map(({ assignment, submission }, index) => (
-              <div key={assignment.id} className="flex flex-col gap-2.5">
+              <div key={assignment.id} className="flex flex-col gap-4">
                 {index > 0 && <Separator />}
-                <div className="flex flex-col gap-2 pt-0.5">
+                <div className="flex flex-col gap-2.5 pt-0.5">
                   <div className="flex items-start justify-between gap-3">
                     <Link
                       href={`/assignments/${assignment.id}`}
@@ -254,7 +254,7 @@ export default async function DashboardPage() {
                   </div>
 
                   {submission?.feedback && (
-                    <p className="rounded-2xl bg-muted/60 px-3.5 py-2.5 text-xs leading-6 text-muted-foreground">
+                    <p className="rounded-2xl bg-muted/60 px-4 py-3 text-xs leading-7 text-muted-foreground">
                       <span className="font-medium text-foreground">
                         {demoCourse.instructor_name} 先生：
                       </span>
@@ -268,7 +268,7 @@ export default async function DashboardPage() {
             <ButtonLink
               href="/assignments"
               variant="outline"
-              className="mt-1 rounded-2xl"
+              className="mt-2 h-11 rounded-xl px-5"
             >
               課題ページをひらく
               <ChevronRight />
@@ -286,11 +286,11 @@ export default async function DashboardPage() {
             <CardDescription>運営からの最新のご案内です。</CardDescription>
           </CardHeader>
 
-          <CardContent className="flex flex-col gap-3">
+          <CardContent className="flex flex-col gap-4">
             {announcements.map((announcement, index) => (
-              <div key={announcement.id} className="flex flex-col gap-2.5">
+              <div key={announcement.id} className="flex flex-col gap-4">
                 {index > 0 && <Separator />}
-                <article className="flex flex-col gap-1 pt-0.5">
+                <article className="flex flex-col gap-1.5 pt-0.5">
                   <div className="flex items-center gap-2 text-xs text-muted-foreground">
                     {announcement.is_pinned && (
                       <Pin className="size-3.5 text-brand-pink" />
@@ -304,7 +304,7 @@ export default async function DashboardPage() {
                   <h3 className="font-medium leading-relaxed">
                     {announcement.title}
                   </h3>
-                  <p className="line-clamp-2 text-xs leading-6 text-muted-foreground">
+                  <p className="line-clamp-2 text-xs leading-7 text-muted-foreground">
                     {announcement.body}
                   </p>
                 </article>
@@ -316,10 +316,10 @@ export default async function DashboardPage() {
 
       {/* サポートチャットへの導線 */}
       <Card className="rounded-2xl">
-        <CardContent className="flex flex-wrap items-center gap-x-5 gap-y-3 py-1">
+        <CardContent className="flex flex-wrap items-center gap-x-6 gap-y-4">
           <span
             aria-hidden
-            className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-brand-pink-soft"
+            className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-brand-pink-soft"
           >
             <MessagesSquare className="size-5 text-secondary-foreground" />
           </span>
@@ -328,14 +328,14 @@ export default async function DashboardPage() {
             <p className="font-heading text-base font-medium">
               個別サポート・チャット
             </p>
-            <p className="text-xs leading-6 text-muted-foreground">
+            <p className="text-xs leading-7 text-muted-foreground">
               {unreadCount > 0
                 ? `${demoCourse.instructor_name} 先生から新しいお返事が${unreadCount}件届いています。`
                 : "講座の内容でも活動のご相談でも、お気軽にどうぞ。"}
             </p>
           </div>
 
-          <ButtonLink href="/support" size="lg" className="rounded-2xl">
+          <ButtonLink href="/support" size="lg" className="h-11 rounded-xl px-5">
             チャットをひらく
             <ChevronRight />
           </ButtonLink>

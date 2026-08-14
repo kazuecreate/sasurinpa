@@ -63,13 +63,13 @@ export default async function CertificatePage() {
   ];
 
   return (
-    <div className="flex flex-col gap-6">
-      <header className="flex flex-col gap-1.5">
+    <div className="flex flex-col gap-8">
+      <header className="flex flex-col gap-2">
         <p className="text-sm text-muted-foreground">{demoCourse.title}</p>
-        <h1 className="font-heading text-2xl font-bold tracking-tight sm:text-3xl">
+        <h1 className="font-heading text-2xl font-medium sm:text-3xl">
           デジタル認定講師証
         </h1>
-        <p className="max-w-2xl text-sm leading-7 text-muted-foreground">
+        <p className="max-w-2xl text-sm leading-8 text-muted-foreground">
           {certificate
             ? "修了おめでとうございます。認定IDはサロンの名刺やご案内にもお使いいただけます。"
             : "全レッスンの受講と全課題の合格で発行されます。あと少し、ご自分のペースで進めていきましょう。"}
@@ -93,9 +93,14 @@ export default async function CertificatePage() {
               </CardDescription>
             </CardHeader>
 
-            <CardContent className="flex flex-col gap-3">
-              <div className="flex flex-wrap gap-2">
-                <Button type="button" size="lg" disabled className="rounded-2xl">
+            <CardContent className="flex flex-col gap-4">
+              <div className="flex flex-wrap gap-3">
+                <Button
+                  type="button"
+                  size="lg"
+                  disabled
+                  className="h-11 rounded-xl px-5"
+                >
                   <Printer />
                   印刷する
                 </Button>
@@ -104,13 +109,13 @@ export default async function CertificatePage() {
                   size="lg"
                   variant="outline"
                   disabled
-                  className="rounded-2xl"
+                  className="h-11 rounded-xl px-5"
                 >
                   <Download />
                   画像として保存
                 </Button>
               </div>
-              <p className="text-xs leading-6 text-muted-foreground">
+              <p className="text-xs leading-7 text-muted-foreground">
                 印刷用の書き出しはこれから接続します。認定講師ページへの掲載申請は、サポートチャットから承っています。
               </p>
             </CardContent>
@@ -120,8 +125,8 @@ export default async function CertificatePage() {
             <CardHeader>
               <CardTitle>認定講師として</CardTitle>
             </CardHeader>
-            <CardContent className="flex flex-col gap-3">
-              <ul className="flex list-disc flex-col gap-1.5 pl-4 text-sm leading-7 text-muted-foreground">
+            <CardContent className="flex flex-col gap-4">
+              <ul className="flex list-disc flex-col gap-2 pl-4 text-sm leading-8 text-muted-foreground">
                 <li>名刺やご案内に「さすりんぱ認定講師」と認定IDを記載できます。</li>
                 <li>公式サイトの「認定講師をさがす」ページへ掲載申請ができます。</li>
                 <li>卒業生向けの勉強会・資材のご案内が届きます。</li>
@@ -129,7 +134,7 @@ export default async function CertificatePage() {
               <ButtonLink
                 href="/support"
                 variant="outline"
-                className="self-start rounded-2xl"
+                className="h-11 self-start rounded-xl px-5"
               >
                 掲載申請について相談する
               </ButtonLink>
@@ -145,7 +150,7 @@ export default async function CertificatePage() {
             </CardDescription>
           </CardHeader>
 
-          <CardContent className="flex flex-col gap-5">
+          <CardContent className="flex flex-col gap-8">
             {requirements.map((requirement) => {
               const isDone =
                 requirement.total > 0 &&
@@ -158,7 +163,7 @@ export default async function CertificatePage() {
                     );
 
               return (
-                <div key={requirement.label} className="flex flex-col gap-2.5">
+                <div key={requirement.label} className="flex flex-col gap-3">
                   <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                     {isDone ? (
                       <CheckCircle2
@@ -187,7 +192,7 @@ export default async function CertificatePage() {
                   <ButtonLink
                     href={requirement.href}
                     variant="outline"
-                    className="self-start rounded-2xl"
+                    className="mt-1 h-11 self-start rounded-xl px-5"
                   >
                     <requirement.icon />
                     {requirement.linkLabel}

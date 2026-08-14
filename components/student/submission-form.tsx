@@ -25,7 +25,7 @@ export function SubmissionForm({
   const isResubmission = submission != null;
 
   return (
-    <form className="flex flex-col gap-4">
+    <form className="flex flex-col gap-6">
       {kind.needsFile && (
         <MockField
           label="実技動画のファイル"
@@ -36,7 +36,7 @@ export function SubmissionForm({
             id="submission-file"
             type="file"
             accept="video/*"
-            className="h-auto rounded-2xl py-2"
+            className="h-auto rounded-xl px-4 py-3"
           />
         </MockField>
       )}
@@ -59,12 +59,12 @@ export function SubmissionForm({
               ? "3回の施術を通して感じた相手の変化と、ご自身の気づきをまとめてください。"
               : "自宅で撮影しました。ゆらすが一番むずかしかったです。"
           }
-          className="rounded-2xl bg-card"
+          className="rounded-xl bg-card px-4 py-3"
         />
       </MockField>
 
-      <div className="flex flex-wrap items-center gap-2">
-        <Button type="button" size="lg" className="rounded-2xl">
+      <div className="flex flex-wrap items-center gap-3">
+        <Button type="button" size="lg" className="h-11 rounded-xl px-5">
           {isResubmission ? <Upload /> : <Send />}
           {isResubmission ? "この内容で再提出する" : "この内容で提出する"}
         </Button>
@@ -72,7 +72,7 @@ export function SubmissionForm({
           type="button"
           size="lg"
           variant="outline"
-          className="rounded-2xl bg-card"
+          className="h-11 rounded-xl bg-card px-5"
         >
           下書き保存
         </Button>

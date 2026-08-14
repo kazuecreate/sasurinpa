@@ -53,7 +53,7 @@ export default async function AssignmentPage({
   const isApproved = submission?.status === "approved";
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-8">
       <nav
         aria-label="パンくず"
         className="flex flex-wrap items-center gap-1 text-xs text-muted-foreground"
@@ -65,11 +65,11 @@ export default async function AssignmentPage({
         <span>{assignment.title}</span>
       </nav>
 
-      <header className="flex flex-col gap-2.5">
+      <header className="flex flex-col gap-3">
         {chapter && (
           <p className="text-sm text-muted-foreground">{chapter.title}</p>
         )}
-        <h1 className="font-heading text-xl font-bold leading-relaxed tracking-tight sm:text-2xl">
+        <h1 className="font-heading text-xl font-medium leading-relaxed sm:text-2xl">
           {assignment.title}
         </h1>
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted-foreground">
@@ -92,7 +92,7 @@ export default async function AssignmentPage({
           <CardHeader>
             <CardTitle>課題の内容</CardTitle>
           </CardHeader>
-          <CardContent className="text-sm leading-7 text-muted-foreground">
+          <CardContent className="text-sm leading-8 text-muted-foreground">
             {assignment.description}
           </CardContent>
         </Card>
@@ -108,18 +108,18 @@ export default async function AssignmentPage({
             </CardDescription>
           </CardHeader>
 
-          <CardContent className="flex flex-col gap-4">
+          <CardContent className="flex flex-col gap-5">
             {submission.file_url && (
               <SubmissionFile fileUrl={submission.file_url} />
             )}
 
             {submission.body && (
-              <p className="rounded-2xl bg-muted/60 px-4 py-3.5 text-sm leading-7">
+              <p className="rounded-2xl bg-muted/60 px-5 py-4 text-sm leading-8">
                 {submission.body}
               </p>
             )}
 
-            <div className="flex flex-col gap-2.5">
+            <div className="flex flex-col gap-3">
               <h2 className="text-sm font-medium">講師からのフィードバック</h2>
               <SubmissionFeedback
                 submission={submission}
@@ -152,15 +152,15 @@ export default async function AssignmentPage({
 
         <CardContent>
           {isApproved ? (
-            <div className="flex flex-col items-start gap-3 rounded-2xl bg-brand-sage-soft/50 px-4 py-3.5">
-              <p className="text-sm leading-7">
+            <div className="flex flex-col items-start gap-4 rounded-2xl bg-brand-sage-soft/50 px-5 py-4">
+              <p className="text-sm leading-8">
                 おつかれさまでした。この課題はすでに合格しているので、提出しなおす必要はありません。
                 内容を見直したいときは、サポートチャットからご相談ください。
               </p>
               <ButtonLink
                 href="/support"
                 variant="outline"
-                className="rounded-2xl bg-card"
+                className="h-11 rounded-xl bg-card px-5"
               >
                 サポートチャットをひらく
               </ButtonLink>
@@ -175,7 +175,7 @@ export default async function AssignmentPage({
         href="/assignments"
         variant="outline"
         size="lg"
-        className="self-start rounded-2xl"
+        className="h-11 self-start rounded-xl px-5"
       >
         課題の一覧にもどる
       </ButtonLink>

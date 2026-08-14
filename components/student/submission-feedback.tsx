@@ -19,9 +19,9 @@ export function SubmissionFeedback({
 }) {
   if (submission.feedback == null) {
     return (
-      <div className="flex items-start gap-3 rounded-2xl bg-muted/60 px-4 py-3.5">
-        <Hourglass aria-hidden className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
-        <p className="text-xs leading-6 text-muted-foreground">
+      <div className="flex items-start gap-3 rounded-2xl bg-muted/60 px-5 py-4">
+        <Hourglass aria-hidden className="mt-1 size-4 shrink-0 text-muted-foreground" />
+        <p className="text-xs leading-7 text-muted-foreground">
           {instructorName} 先生が確認中です。フィードバックが届くとこちらに表示され、
           ダッシュボードにもお知らせが出ます。
         </p>
@@ -30,8 +30,8 @@ export function SubmissionFeedback({
   }
 
   return (
-    <div className="flex flex-col gap-3 rounded-2xl bg-brand-pink-soft/50 p-4">
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+    <div className="flex flex-col gap-4 rounded-2xl bg-brand-pink-soft/50 p-5">
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
         <Avatar>
           <AvatarFallback className="bg-card text-secondary-foreground">
             {instructorName.charAt(0)}
@@ -52,7 +52,7 @@ export function SubmissionFeedback({
         )}
       </div>
 
-      <p className="text-sm leading-7">{submission.feedback}</p>
+      <p className="text-sm leading-8">{submission.feedback}</p>
     </div>
   );
 }

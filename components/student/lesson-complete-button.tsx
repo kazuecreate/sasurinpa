@@ -20,13 +20,13 @@ export function LessonCompleteButton({
   const [isCompleted, setIsCompleted] = useState(initialCompleted);
 
   return (
-    <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+    <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
       <Button
         size="lg"
         variant={isCompleted ? "outline" : "default"}
         aria-pressed={isCompleted}
         onClick={() => setIsCompleted((prev) => !prev)}
-        className="rounded-2xl"
+        className="h-11 rounded-xl px-5"
       >
         {isCompleted ? <CircleCheck /> : <Check />}
         {isCompleted ? "完了しました" : "このレッスンを完了にする"}

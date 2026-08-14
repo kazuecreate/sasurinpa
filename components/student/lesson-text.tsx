@@ -8,7 +8,7 @@ import { Fragment, type ReactNode } from "react";
  */
 export function LessonText({ content }: { content: string }) {
   return (
-    <div className="flex flex-col gap-4 text-[0.95rem] leading-8">
+    <div className="flex flex-col gap-5 text-[0.95rem] leading-8">
       {parseBlocks(content)}
     </div>
   );
@@ -32,7 +32,7 @@ function parseBlocks(content: string): ReactNode[] {
   const flushBullets = () => {
     if (bullets.length === 0) return;
     blocks.push(
-      <ul key={`ul-${blocks.length}`} className="flex flex-col gap-2 pl-1">
+      <ul key={`ul-${blocks.length}`} className="flex flex-col gap-3 pl-1">
         {bullets.map((item, index) => (
           <li key={index} className="flex gap-2.5">
             <span aria-hidden className="mt-3.5 size-1.5 shrink-0 rounded-full bg-brand-pink" />
@@ -60,7 +60,7 @@ function parseBlocks(content: string): ReactNode[] {
       blocks.push(
         <h2
           key={`h-${blocks.length}`}
-          className="mt-2 flex items-center gap-2.5 font-heading text-lg font-bold first:mt-0"
+          className="mt-3 flex items-center gap-2.5 font-heading text-lg font-medium first:mt-0"
         >
           <span aria-hidden className="h-5 w-1 rounded-full bg-brand-pink" />
           {heading[2]}

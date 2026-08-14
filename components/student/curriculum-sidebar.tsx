@@ -19,12 +19,12 @@ export function CurriculumSidebar({
   return (
     <nav
       aria-label="カリキュラム"
-      className="flex flex-col gap-5 rounded-2xl bg-card p-4 ring-1 ring-foreground/10"
+      className="flex flex-col gap-6 rounded-2xl bg-card p-5 ring-1 ring-foreground/10"
     >
       <p className="font-heading text-sm font-medium">カリキュラム</p>
 
       {chapters.map((chapter, chapterIndex) => (
-        <div key={chapter.id} className="flex flex-col gap-1.5">
+        <div key={chapter.id} className="flex flex-col gap-2">
           <p className="text-xs font-medium text-muted-foreground">
             第{chapterIndex + 1}章　{chapter.title}
           </p>
@@ -41,7 +41,7 @@ export function CurriculumSidebar({
                     href={`/curriculum/${lesson.id}`}
                     aria-current={isCurrent ? "page" : undefined}
                     className={cn(
-                      "flex items-start gap-2.5 rounded-2xl px-2.5 py-2 text-xs transition-colors",
+                      "flex items-start gap-3 rounded-xl px-3 py-2.5 text-xs transition-colors",
                       isCurrent
                         ? "bg-brand-pink-soft text-secondary-foreground"
                         : "text-muted-foreground hover:bg-muted/70",

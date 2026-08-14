@@ -112,6 +112,29 @@
   --sidebar-ring: var(--brand-pink);
 }
 
+/* 受講生画面のトーン（docs/design-reference.png のやさしさ・余白・安心感に寄せる）。
+   カラートークンは共通のまま、角丸と余白だけをやわらかい側へ振る。
+   スコープは `app/(student)/layout.tsx` の data-view="student"（管理画面には効かない）。 */
+
+/* `@theme inline` により rounded-* は calc(var(--radius) * n) に展開されるので、
+   ここで --radius を差し替えると、この subtree の角丸だけが一段小さくまとまる。
+   rounded-2xl ≒ 20px（カード・パネル）、rounded-xl ≒ 16px（ボタン・入力欄）。 */
+[data-view="student"] {
+  --radius: 0.7rem;
+
+  /* 本文の行間。text-xs / text-sm / text-base が既定で参照する行送りを広げる
+     （leading-* を書いた箇所は --tw-leading が優先されるのでそのまま残る）。 */
+  --text-xs--line-height: 1.9;
+  --text-sm--line-height: 1.9;
+  --text-base--line-height: 1.9;
+}
+
+/* カード内側の余白を 1rem → 1.5rem に。--card-spacing は Card 自身が
+   ユーティリティで持つため、@layer の外に置いたこのルールで上書きする。 */
+[data-view="student"] [data-slot="card"][data-size="default"] {
+  --card-spacing: --spacing(6);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

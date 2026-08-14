@@ -53,20 +53,20 @@ export default async function AssignmentsPage() {
       : Math.round((approvedCount / assignments.length) * 100);
 
   return (
-    <div className="flex flex-col gap-6">
-      <header className="flex flex-col gap-1.5">
+    <div className="flex flex-col gap-8">
+      <header className="flex flex-col gap-2">
         <p className="text-sm text-muted-foreground">{demoCourse.title}</p>
-        <h1 className="font-heading text-2xl font-bold tracking-tight sm:text-3xl">
+        <h1 className="font-heading text-2xl font-medium sm:text-3xl">
           課題提出
         </h1>
-        <p className="max-w-2xl text-sm leading-7 text-muted-foreground">
+        <p className="max-w-2xl text-sm leading-8 text-muted-foreground">
           実技動画とレポートを提出すると、{demoCourse.instructor_name}
           先生が一つずつ目を通してお返事します。うまくできなくて大丈夫です、いまの状態のままお送りください。
         </p>
       </header>
 
       <Card className="rounded-2xl">
-        <CardContent className="flex flex-col gap-2.5 py-1">
+        <CardContent className="flex flex-col gap-3">
           <div className="flex items-baseline justify-between gap-3">
             <span className="text-sm font-medium">課題の合格</span>
             <span className="text-sm text-muted-foreground tabular-nums">
@@ -78,7 +78,7 @@ export default async function AssignmentsPage() {
         </CardContent>
       </Card>
 
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-6">
         {assignments.map(({ assignment, submission }, index) => {
           const kind = SUBMISSION_KIND_META[assignment.submission_kind];
 
@@ -86,7 +86,7 @@ export default async function AssignmentsPage() {
             <Card key={assignment.id} className="rounded-2xl">
               <CardHeader>
                 <CardTitle className="flex flex-wrap items-center gap-x-3 gap-y-2">
-                  <span className="rounded-2xl bg-brand-pink-soft px-2.5 py-1 text-xs font-medium text-secondary-foreground">
+                  <span className="rounded-2xl bg-brand-pink-soft px-3 py-1.5 text-xs font-medium text-secondary-foreground">
                     課題{index + 1}
                   </span>
                   <span className="text-base">{assignment.title}</span>
@@ -112,15 +112,15 @@ export default async function AssignmentsPage() {
                 </CardDescription>
               </CardHeader>
 
-              <CardContent className="flex flex-col gap-4">
+              <CardContent className="flex flex-col gap-5">
                 {assignment.description && (
-                  <p className="text-sm leading-7 text-muted-foreground">
+                  <p className="text-sm leading-8 text-muted-foreground">
                     {assignment.description}
                   </p>
                 )}
 
                 {submission?.feedback && (
-                  <div className="flex flex-col gap-1.5 rounded-2xl bg-muted/60 px-4 py-3">
+                  <div className="flex flex-col gap-2 rounded-2xl bg-muted/60 px-5 py-4">
                     <span className="flex items-center gap-1.5 text-xs font-medium text-foreground">
                       <MessageSquareQuote className="size-3.5" />
                       {demoCourse.instructor_name} 先生からのフィードバック
@@ -133,7 +133,7 @@ export default async function AssignmentsPage() {
                         </Badge>
                       )}
                     </span>
-                    <p className="line-clamp-2 text-xs leading-6 text-muted-foreground">
+                    <p className="line-clamp-2 text-xs leading-7 text-muted-foreground">
                       {submission.feedback}
                     </p>
                   </div>
@@ -146,7 +146,7 @@ export default async function AssignmentsPage() {
                       submission?.status === "approved" ? "outline" : "default"
                     }
                     href={`/assignments/${assignment.id}`}
-                    className="rounded-2xl"
+                    className="h-11 rounded-xl px-5"
                   >
                     {submission?.status === "approved" ? (
                       <CheckCircle2 />
