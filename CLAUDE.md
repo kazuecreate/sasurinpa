@@ -61,7 +61,7 @@ No test runner is configured. If tests are needed, pick and set up a framework f
 | `app/(auth)/` | `login` and `signup`, on a centered card layout with no header nav |
 | `app/(admin)/` | Admin route group. Pages live under `admin/` inside it (`/admin/students`, `/admin/submissions`, `/admin/curriculum`, `/admin/announcements`) because a bare `/curriculum` would collide with the student route; `/admin` itself redirects to the roster. |
 | `components/student/` | Student-view pieces (header, lesson row, sidebar, media placeholders, completion button, badges, submission form/feedback/file, chat bubbles, certificate card) |
-| `components/admin/` | Admin-view pieces (its own header nav, page header, stat tiles, status badges, lesson editor row). Reuses `SubmissionStatusBadge`, `LESSON_TYPE_META` and `SUBMISSION_KIND_META` from `components/student/` rather than duplicating them — those modules are presentational and role-neutral. |
+| `components/admin/` | Admin-view pieces (left sidebar nav, decorative backdrop, page header, stat tiles, status badges, lesson editor row). Reuses `SubmissionStatusBadge`, `LESSON_TYPE_META` and `SUBMISSION_KIND_META` from `components/student/` rather than duplicating them — those modules are presentational and role-neutral. |
 | `components/mock-form.tsx` | The appearance-only field / select / "not wired yet" notice, shared by both views' forms |
 | `components/ui/` | shadcn primitives |
 
@@ -89,7 +89,15 @@ Warm, soft, hand-drawn feel — rounded cards (`rounded-2xl`), generous whitespa
 
 Colours and component structure are deliberately identical between the two views; only radius, spacing and type weight differ. Headings in the student view are `font-medium`, not `font-bold` — the font loads 400/500/700 only, so `font-semibold` would jump straight to 700.
 
-The two views share this palette but lean on different halves of it, so a screenshot is unambiguous: the student view leads with pink (`bg-brand-pink-soft` header nav and highlights), the admin view with sage (white header bar over a `bg-brand-sage` rule, `bg-brand-sage-soft` active nav) and a wider `max-w-6xl` shell against the student `max-w-5xl`.
+The two views share this palette but lean on different halves of it, so a screenshot is unambiguous: the student view leads with pink (`bg-brand-pink-soft` header nav and highlights), the admin view with sage (`bg-brand-sage-soft` sidebar and active nav pill) — and the shells differ too, a top header + `max-w-5xl` for students against a left sidebar + `max-w-6xl` for admin.
+
+**The admin shell is a left sidebar over a decorative backdrop** (`docs/admin-reference.png`), built from three files:
+
+- `components/admin/admin-sidebar.tsx` — logo at the top, nav items stacked, signed-in admin + ログアウト pinned to the bottom with `mt-auto`. At `lg` it is a `lg:sticky lg:top-0 lg:h-svh lg:w-64` column; below `lg` it collapses to a sticky top bar with a hamburger that opens the same panel as an off-canvas drawer (Esc closes it, focus moves to the close button). The drawer is **not rendered while closed**, so no off-screen link can take focus — that is also why the panel body is a shared `SidebarPanel` function rather than one element repositioned by media query. Don't add a `useEffect` that closes it on `pathname` change: the nav links close it themselves, and `react-hooks/set-state-in-effect` fails the lint.
+- `components/admin/admin-backdrop.tsx` — the pale gradient, blurred watercolor washes, and flowers/leaves. **No image assets**: `.admin-flower` builds a blossom from `n` `<i>` petals (a square with three corners rounded, `transform-origin: 0 0` at the flower centre, `rotate: var(--petal)` per petal) and `.admin-leaf` is a box with two opposite corners rounded — both in `globals.css`, coloured only from `--brand-*`. A petal side of 34% is the ceiling: the rotation pivot is a corner, so the flower's radius is `34% × √2 ≈ 48%` of the box.
+- `app/(admin)/layout.tsx` — needs **`isolate`** on the shell. The backdrop is `fixed … -z-10`, and without a stacking context there, `body`'s opaque `bg-background` paints over it and the whole backdrop disappears.
+
+Legibility comes first in that view: motifs sit at the viewport edges at low opacity, the biggest ones are `hidden sm:block` so they never land under the footer's 12px text on a phone, and all tables and figures ride on opaque `bg-card` white. Keep it that way when adding motifs.
 
 Within the student view the same pink/sage split marks *who is speaking*: the student's own chat bubbles and submissions are pink, the instructor's replies and feedback panels are sage or white. `components/student/chat-message.tsx` is where that lives.
 
