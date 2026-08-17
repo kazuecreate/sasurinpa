@@ -105,7 +105,8 @@ export default function AdminAnnouncementsPage() {
 
       <div className="grid gap-5 lg:grid-cols-[22rem_minmax(0,1fr)] lg:items-start">
         {/* 新規作成フォーム（見た目のみ） */}
-        <Card className="rounded-2xl lg:sticky lg:top-28">
+        {/* lg では上部バーが無く（ナビは左サイドバー）、本文の余白ぶんだけ空ければいい。 */}
+        <Card className="rounded-2xl lg:sticky lg:top-10">
           <CardHeader>
             <CardTitle>お知らせを作成する</CardTitle>
             <CardDescription>

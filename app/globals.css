@@ -135,6 +135,70 @@
   --card-spacing: --spacing(6);
 }
 
+/* 管理画面の背景モチーフ（docs/admin-reference.png）。
+   写真素材は使わず、花と葉をかたちと角丸だけで描く。色は --brand-* のみ。
+   組み立ては components/admin/admin-backdrop.tsx。
+   components レイヤーに置いてあるので、大きさ・角度・不透明度は
+   呼び出し側のユーティリティで上書きできる。 */
+@layer components {
+  /* 花：中心側の角だけ尖らせた四角を1枚の花びらにして、
+     中心（transform-origin: 0 0）を軸に等間隔で回す。回す角度は --petal で渡す。 */
+  .admin-flower {
+    --petal-core: color-mix(in oklch, var(--brand-pink) 70%, white);
+    --petal-edge: var(--brand-pink-soft);
+    --petal-heart: var(--brand-cream);
+  }
+
+  /* 花びらの一辺は 34%。回転の軸が箱の角（＝花の中心）なので、
+     これ以上大きくすると花が .admin-flower の枠から出る（34% × √2 ≒ 半径 48%）。 */
+  .admin-flower > i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 34%;
+    height: 34%;
+    border-radius: 10% 100% 100% 100%;
+    transform-origin: 0 0;
+    rotate: var(--petal);
+    opacity: 0.85;
+    background: radial-gradient(
+      circle at 80% 80%,
+      var(--petal-edge),
+      var(--petal-core)
+    );
+  }
+
+  /* 花芯 */
+  .admin-flower::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 14%;
+    height: 14%;
+    translate: -50% -50%;
+    border-radius: 50%;
+    background: var(--petal-heart);
+  }
+
+  /* 白っぽい小花（参考画像のかすみ草あたり）。 */
+  .admin-flower[data-tone="cream"] {
+    --petal-core: var(--brand-pink-soft);
+    --petal-edge: #ffffff;
+    --petal-heart: color-mix(in oklch, var(--brand-pink) 30%, white);
+  }
+
+  /* 葉：対角の角だけ丸めると葉のかたちになる。 */
+  .admin-leaf {
+    border-radius: 65% 0 65% 0;
+    background: linear-gradient(
+      140deg,
+      var(--brand-sage-soft),
+      color-mix(in oklch, var(--brand-sage) 75%, white)
+    );
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
